@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { Employee as EmployeeModel, Tasks as TaskModel } from '@prisma/client';
 import { EmployeeService } from './employee/employee.service';
 import { TasksService } from './tasks/tasks.service';
@@ -80,6 +80,23 @@ export class AppController {
       employee: {
         connect: { email: authorEmail },
       },
+    });
+  }
+
+  @Put('task/:id')
+  async update(
+    @Param('id') id: string,
+    @Body()
+    postData: {
+      title: string;
+      description?: string;
+      dueDate: string;
+      authorEmail: string;
+    },
+  ): Promise<TaskModel> {
+    return this.taskService.updateTasks({
+      where: { id: Number(id) },
+      data: postData,
     });
   }
 }
