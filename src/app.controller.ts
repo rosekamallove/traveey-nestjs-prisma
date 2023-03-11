@@ -39,6 +39,29 @@ export class AppController {
     return this.taskService.task({ id: Number(id) });
   }
 
+  @Get('all-tasks')
+  async getAllTasks(): Promise<TaskModel[]> {
+    return this.taskService.tasks({});
+  }
+
+  @Get('filtered-tasks/:searchString')
+  async getFilteredTasks(
+    @Param('searchString') searchString: string,
+  ): Promise<TaskModel[]> {
+    return this.taskService.tasks({
+      where: {
+        OR: [
+          {
+            title: { contains: searchString },
+          },
+          {
+            description: { contains: searchString },
+          },
+        ],
+      },
+    });
+  }
+
   @Post('task')
   async createDraft(
     @Body()
