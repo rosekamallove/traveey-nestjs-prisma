@@ -24,7 +24,7 @@ model Tasks {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  dueDate     DateTime
+  dueDate     String
   employee    Employee @relation(fields: [employeeId], references: [id])
   employeeId  Int
 }
