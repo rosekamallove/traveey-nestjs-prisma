@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Employee as EmployeeModel, Tasks as TaskModel } from '@prisma/client';
 import { EmployeeService } from './employee/employee.service';
 import { TasksService } from './tasks/tasks.service';
@@ -98,5 +107,15 @@ export class AppController {
       where: { id: Number(id) },
       data: postData,
     });
+  }
+
+  @Delete('task/:id')
+  async deleteTask(@Param('id') id: string): Promise<TaskModel> {
+    return this.taskService.deleteTasks({ id: Number(id) });
+  }
+
+  @Delete('user/:id')
+  async deleteUser(@Param('id') id: string): Promise<EmployeeModel> {
+    return this.employeeService.deleteUser({ id: Number(id) });
   }
 }
